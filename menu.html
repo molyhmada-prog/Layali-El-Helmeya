@@ -1,212 +1,75 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>قائمة الطعام - مطعم ليالي الحلمية</title>
-
-    <!-- خط القاهرة وأيقونات Font Awesome -->
+    <title>المنيو الكامل | مطعم ليالي الحلمية</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-    <style>
-        /* الثيم الداكن الأصلي للموقع */
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* الهيدر العلوي */
-        header.navbar {
-            background-color: #1a1a1a;
-            padding: 12px 25px;
-            border-bottom: 1px solid #2a2a2a;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-            .logo img {
-                width: 45px;
-                height: 45px;
-                border-radius: 50%;
-                object-fit: cover;
-                border: 2px solid #e63946;
-            }
-
-            .logo h2 {
-                color: #ffffff;
-                font-size: 20px;
-                margin: 0;
-                font-weight: 700;
-            }
-
-        nav {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-            nav a {
-                color: #cccccc;
-                text-decoration: none;
-                font-weight: 600;
-                font-size: 15px;
-                transition: color 0.3s;
-            }
-
-                nav a:hover, nav a.active {
-                    color: #e63946;
-                }
-
-        .cart-icon {
-            background: #e63946;
-            color: #ffffff !important;
-            padding: 6px 14px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: bold;
-        }
-
-        /* عنوان الصفحة الداكن */
-        .page-banner {
-            text-align: center;
-            padding: 35px 20px 15px 20px;
-            background-color: #121212;
-        }
-
-            .page-banner h1 {
-                color: #ffffff;
-                margin: 0 0 8px 0;
-                font-size: 32px;
-                font-weight: 800;
-            }
-
-            .page-banner p {
-                color: #aaaaaa;
-                margin: 0;
-                font-size: 15px;
-            }
-
-        /* أزرار الفلترة المتناسقة مع الثيم */
-        .menu-filters {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin: 20px auto 30px auto;
-            padding: 0 15px;
-            max-width: 1200px;
-        }
-
-        .filter-btn {
-            padding: 8px 22px;
-            border: 1px solid #333333;
-            background-color: #1e1e1e;
-            color: #dddddd;
-            font-family: 'Cairo', sans-serif;
-            font-size: 15px;
-            font-weight: 600;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-            .filter-btn:hover,
-            .filter-btn.active {
-                background-color: #e63946;
-                color: #ffffff;
-                border-color: #e63946;
-                box-shadow: 0 4px 12px rgba(230, 57, 70, 0.4);
-            }
-
-        /* شبكة الكروت */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-            gap: 25px;
-            padding: 0 20px 50px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: #1a1a1a;
-            color: #777777;
-            font-size: 14px;
-            border-top: 1px solid #252525;
-        }
-    </style>
+    <link rel="stylesheet" href="menu.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
     <!-- الهيدر -->
-    <header class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <img src="images/logo.jpg" alt="ليالي الحلمية" onerror="this.src='https://via.placeholder.com/45'">
-                <h2>ليالي الحلمية</h2>
-            </div>
-            <nav>
+    <header class="main-header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="logo.jpg" alt="ليالي الحلمية" onerror="this.src='images/logo.jpg'">
+                <span>ليالي الحلمية</span>
+            </a>
+            <nav class="nav-links">
                 <a href="index.html">الرئيسية</a>
-                <a href="menu.html" class="active">قائمة الطعام</a>
-                <a href="cart.html" class="cart-icon">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span id="cartCount">0</span>
-                </a>
+                <a href="menu.html" class="active">المنيو</a>
             </nav>
+            <div class="header-actions">
+                <button id="langToggle" class="lang-btn">EN</button>
+                <div class="cart-icon-wrapper" onclick="toggleCart()">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cartCount" class="cart-badge">0</span>
+                </div>
+            </div>
         </div>
     </header>
 
-    <!-- عنوان الصفحة -->
-    <section class="page-banner">
-        <h1>قائمة الطعام</h1>
-        <p>استمتع بأشهى المأكولات والمخبوزات الفلاحية والبيتزا في مطعم ليالي الحلمية</p>
+    <!-- قائمة التصنيفات -->
+    <section class="menu-page-container">
+        <h1 class="page-title">قائمة المأكولات</h1>
+        <div class="filter-categories">
+            <button class="filter-btn active" onclick="filterCategory('all')">الكل</button>
+            <button class="filter-btn" onclick="filterCategory('famous')">أشهر أطباقنا</button>
+            <button class="filter-btn" onclick="filterCategory('فطير مشلتت')">فطير مشلتت</button>
+            <button class="filter-btn" onclick="filterCategory('بيتزا')">بيتزا</button>
+            <button class="filter-btn" onclick="filterCategory('كريب')">كريب</button>
+            <button class="filter-btn" onclick="filterCategory('طواجن')">طواجن</button>
+        </div>
+
+        <!-- شبكة المنتجات -->
+        <div id="menuGrid" class="menu-grid">
+            <!-- المنتجات تحمّل ديناميكياً -->
+        </div>
     </section>
 
-    <!-- أزرار الأقسام والفلترة -->
-    <div class="menu-filters">
-        <button class="filter-btn active" onclick="filterCategory('all')">الكل</button>
-        <button class="filter-btn" onclick="filterCategory('famous')">🔥 أشهر الأطباق</button>
-        <button class="filter-btn" onclick="filterCategory('pizza')">🍕 البيتزا</button>
-        <button class="filter-btn" onclick="filterCategory('feteer')">🫓 الفطير</button>
-        <button class="filter-btn" onclick="filterCategory('tawagen')">🍲 الطواجن</button>
+    <!-- سلة الطلبات -->
+    <div id="cartSidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>سلة الطلبات</h3>
+            <button class="close-cart" onclick="toggleCart()">&times;</button>
+        </div>
+        <div id="cartItems" class="cart-body">
+            <!-- العناصر -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>الإجمالي:</span>
+                <span id="cartTotal">0 د.إ</span>
+            </div>
+            <button onclick="checkoutWhatsApp()" class="checkout-btn"><i class="fa-brands fa-whatsapp"></i> إرسال الطلب عبر الواتساب</button>
+        </div>
     </div>
 
-    <!-- شبكة عرض كروت الطعام -->
-    <main>
-        <div id="featuredGrid" class="menu-grid">
-            <!-- الكروت ستظهر هنا -->
-        </div>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 مطعم ليالي الحلمية - جميع الحقوق محفوظة</p>
-    </footer>
-
-    <!-- السكريبتات -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-config.js"></script>
-    <script src="js/menu.js"></script>
-
+    <!-- الملفات البرمجية -->
+    <script src="script.js"></script>
+    <script src="menu.js"></script>
+    <script src="cart.js"></script>
 </body>
 </html>
