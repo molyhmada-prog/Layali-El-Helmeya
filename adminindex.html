@@ -1,0 +1,383 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم | ليالي الحلمية</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="admin.js" defer></script>
+
+    <style>
+        :root {
+            --primary: #d4af37;
+            --bg: #121212;
+            --panel-bg: #1e1e1e;
+            --border: rgba(212, 175, 55, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            color: #fff;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #0a0a0a;
+            border-left: 1px solid var(--border);
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+            font-weight: 800;
+            margin-bottom: 40px;
+        }
+
+            .sidebar-brand img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+            }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: #aaa;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+            .nav-item:hover, .nav-item.active {
+                background: rgba(212, 175, 55, 0.1);
+                color: var(--primary);
+            }
+
+        .logout-btn {
+            color: #e74c3c;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .btn-add {
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .admin-table-card {
+            background: var(--panel-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: right;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        th {
+            background: #141414;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .item-thumb {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            background: rgba(255,255,255,0.05);
+            border: none;
+            color: #fff;
+            width: 34px;
+            height: 34px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .btn-icon.edit:hover {
+                background: var(--primary);
+                color: #000;
+            }
+
+            .btn-icon.delete:hover {
+                background: #e74c3c;
+                color: #fff;
+            }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .badge-famous {
+            background: rgba(243, 156, 18, 0.2);
+            color: #f39c12;
+            border: 1px solid #f39c12;
+        }
+
+        .badge-visible {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+        }
+
+        .badge-hidden {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+        }
+
+        /* Form Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: var(--panel-bg);
+            width: 100%;
+            max-width: 650px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            padding: 25px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+
+            .form-group.full {
+                grid-column: span 2;
+            }
+
+            .form-group label {
+                font-size: 0.85rem;
+                color: #aaa;
+            }
+
+            .form-group input, .form-group select, .form-group textarea {
+                background: #141414;
+                border: 1px solid #333;
+                color: #fff;
+                padding: 10px;
+                border-radius: 6px;
+                outline: none;
+            }
+
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <img src="../images/logo.jpg" alt="Logo">
+            <span>لوحة التحكم</span>
+        </div>
+        <nav class="nav-menu">
+            <a class="nav-item active" onclick="switchTab('menu')"><i class="fa-solid fa-utensils"></i> قائمة الطعام</a>
+            <a class="nav-item" onclick="switchTab('famous')"><i class="fa-solid fa-star"></i> أشهر أطباقنا</a>
+        </nav>
+        <button type="button" class="logout-btn" onclick="adminLogout()">
+            <i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج
+        </button>
+    </aside>
+
+    <main class="main-content">
+        <div class="header-bar">
+            <h2>إدارة المنيو</h2>
+            <button type="button" class="btn-add" onclick="openItemModal()">
+                <i class="fa-solid fa-plus"></i> إضافة صنف جديد
+            </button>
+        </div>
+
+        <div class="admin-table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>الصورة</th>
+                        <th>اسم الصنف (عربي/EN)</th>
+                        <th>القسم</th>
+                        <th>السعر</th>
+                        <th>الحالة</th>
+                        <th>شهير</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody id="adminMenuTableBody">
+                    <!-- Dynamic Rows -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Modal Form -->
+    <div class="modal" id="itemModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">إضافة صنف جديد</h3>
+                <button type="button" class="btn-icon" onclick="closeItemModal()">&times;</button>
+            </div>
+            <form id="itemForm" onsubmit="handleSaveItem(event)">
+                <input type="hidden" id="itemId">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>الاسم (بالعربية)</label>
+                        <input type="text" id="itemNameAr" required>
+                    </div>
+                    <div class="form-group">
+                        <label>الاسم (بالإنجليزية)</label>
+                        <input type="text" id="itemNameEn">
+                    </div>
+                    <div class="form-group">
+                        <label>القسم</label>
+                        <select id="itemCategory" required>
+                            <option value="salted-pies">فطير حادق</option>
+                            <option value="sweety-pies">فطير حلو</option>
+                            <option value="pizza">بيتزا</option>
+                            <option value="crepe">كريب</option>
+                            <option value="meals">وجبات وطواجن</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>السعر (د.إ)</label>
+                        <number id="itemPrice" step="0.5" min="0" required></number>
+                        <input type="number" id="itemPriceInput" step="0.5" required>
+                    </div>
+                    <div class="form-group full">
+                        <label>الوصف (بالعربية)</label>
+                        <textarea id="itemDescAr" rows="2"></textarea>
+                    </div>
+                    <div class="form-group full">
+                        <label>الوصف (بالإنجليزية)</label>
+                        <textarea id="itemDescEn" rows="2"></textarea>
+                    </div>
+                    <div class="form-group full">
+                        <label>صورة الطبق</label>
+                        <input type="file" id="itemImageFile" accept="image/*">
+                        <input type="hidden" id="itemImageUrl">
+                    </div>
+                    <div class="form-group full checkbox-group">
+                        <label><input type="checkbox" id="itemIsVisible" checked> ظهور الطبق في المنيو</label>
+                        <label><input type="checkbox" id="itemIsFamous"> إضافة إلى "أشهر أطباقنا"</label>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" class="btn-icon" style="width: auto; padding: 10px 20px;" onclick="closeItemModal()">إلغاء</button>
+                    <button type="submit" class="btn-add">حفظ البيانات</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

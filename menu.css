@@ -1,0 +1,257 @@
+﻿/* Premium Menu Grid & Dish Cards */
+.menu-page-header {
+    background: linear-gradient(180deg, rgba(212, 175, 55, 0.1) 0%, rgba(15, 15, 15, 0) 100%);
+    padding: 40px 0 20px;
+}
+
+    .menu-page-header h1 {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 8px;
+    }
+
+.menuSubtext {
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+/* Search Bar */
+.search-box {
+    position: relative;
+    max-width: 550px;
+    margin: 20px auto 30px;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    right: 18px;
+    transform: translateY(-50%);
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+[dir="ltr"] .search-icon {
+    right: auto;
+    left: 18px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 14px 50px 14px 20px;
+    background: rgba(30, 30, 30, 0.8);
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    color: #fff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: var(--transition);
+}
+
+[dir="ltr"] .search-box input {
+    padding: 14px 20px 14px 50px;
+}
+
+.search-box input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+}
+
+/* Category Filter Pills */
+.category-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.filter-btn {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-light);
+    padding: 10px 22px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+    .filter-btn:hover, .filter-btn.active {
+        background: var(--primary-color);
+        color: #000;
+        border-color: var(--primary-color);
+        transform: translateY(-2px);
+    }
+
+/* Standard Menu Grid */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 25px;
+    padding-bottom: 50px;
+}
+
+/* Premium Card Design */
+.menu-card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition);
+    position: relative;
+}
+
+    .menu-card:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow-premium);
+        border-color: var(--primary-color);
+    }
+
+.card-img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+}
+
+    .card-img-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+.menu-card:hover .card-img-wrapper img {
+    transform: scale(1.08);
+}
+
+.card-category-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    color: var(--primary-color);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 1px solid var(--border-color);
+}
+
+[dir="ltr"] .card-category-badge {
+    right: auto;
+    left: 12px;
+}
+
+.card-body {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+    .card-body h3 {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 8px;
+    }
+
+.card-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.5;
+}
+
+.card-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+    .card-footer .price {
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: var(--primary-color);
+    }
+
+.btn-add-cart {
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--transition);
+}
+
+    .btn-add-cart:hover {
+        background: var(--primary-color);
+        color: #000;
+    }
+
+/* Featured / Famous Dishes Grid Layout */
+.featured-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.featured-card {
+    background: linear-gradient(145deg, rgba(30, 30, 30, 0.95), rgba(15, 15, 15, 0.95));
+    border-radius: 18px;
+    border: 1px solid var(--primary-color);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.15);
+    transition: var(--transition);
+    position: relative;
+}
+
+    .featured-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(212, 175, 55, 0.3);
+    }
+
+.featured-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--primary-color);
+    color: #000;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    z-index: 2;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+[dir="ltr"] .featured-badge {
+    right: auto;
+    left: 15px;
+}
+
+.featured-card .card-img-wrapper {
+    height: 220px;
+}
