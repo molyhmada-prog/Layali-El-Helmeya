@@ -1,227 +1,107 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ليالي الحلمية | الصفحة الرئيسية</title>
-    
-    <link rel="icon" href="data:image/x-icon;base64,=">
+    <title>مطعم ليالي الحلمية | أصالة الطعم المصري في رأس الخيمة</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/menu.css">
-
-    <!-- Supabase JS Client -->
+    <link rel="stylesheet" href="menu.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-config.js"></script>
-    <script src="js/script.js" defer></script>
-    <script src="js/cart.js" defer></script>
-    <script src="js/menu.js" defer></script>
 </head>
 <body>
 
-    <!-- Language Selector Modal -->
-    <div id="lang-modal" class="lang-modal" style="display:none;">
-        <div class="modal-card">
-            <h2>اختر اللغة / Select Language</h2>
-            <div class="modal-btns">
-                <button type="button" onclick="selectLanguage('ar')">العربية</button>
-                <button type="button" onclick="selectLanguage('en')">English</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Navigation Header -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="brand">
-                <img src="images/logo.jpg" alt="Logo" onerror="this.style.display='none'">
-                <span data-i18n="brand">ليالي الحلمية</span>
+    <!-- الهيدر وشريط التنقل -->
+    <header class="main-header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="logo.jpg" alt="ليالي الحلمية" onerror="this.src='images/logo.jpg'">
+                <span>ليالي الحلمية</span>
             </a>
-            
-            <div class="nav-links" id="navLinks">
-                <a href="index.html" class="active" data-i18n="navHome">الرئيسية</a>
-                <a href="#about" data-i18n="navAbout">عن المطعم</a>
-                <a href="menu.html" data-i18n="navMenu">المنيو</a>
-                <a href="#specials" data-i18n="navSpecials">أشهر أطباقنا</a>
-                <a href="#contact" data-i18n="navContact">تواصل معنا</a>
-            </div>
-
-            <div class="nav-actions">
-                <button type="button" class="icon-btn" id="langBtn" onclick="toggleLanguage()">EN</button>
-                <div class="cart-icon-wrapper" onclick="toggleCartDrawer()">
-                    <i class="fa-solid fa-bag-shopping"></i>
-                    <span class="cart-count" id="cartCount">0</span>
+            <nav class="nav-links">
+                <a href="index.html" class="active">الرئيسية</a>
+                <a href="#about">عن المطعم</a>
+                <a href="menu.html">المنيو</a>
+                <a href="#famous">أشهر أطباقنا</a>
+                <a href="#contact">تواصل معنا</a>
+            </nav>
+            <div class="header-actions">
+                <button id="langToggle" class="lang-btn">EN</button>
+                <div class="cart-icon-wrapper" onclick="toggleCart()">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cartCount" class="cart-badge">0</span>
                 </div>
-                <button type="button" class="hamburger" onclick="toggleMobileMenu()">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <header class="hero-section">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <img src="images/logo.jpg" alt="Logo" class="hero-logo" onerror="this.style.display='none'">
-            <h1 data-i18n="heroSubtitle">أصالة الطعم المصري</h1>
-            <h2 data-i18n="heroTitle">ليالي الحلمية</h2>
-            <p data-i18n="heroDesc">الطعم الأصلي .. للأكل المصري</p>
-            <div class="hero-btns">
-                <a href="menu.html" class="btn-primary" data-i18n="btnSeeMenu">شوف المنيو</a>
-                <a href="#contact" class="btn-secondary" data-i18n="btnOrderNow">اطلب الآن</a>
             </div>
         </div>
     </header>
 
-    <!-- About Section -->
-    <section id="about" class="section text-center">
-        <div class="container">
-            <h2 class="section-title" data-i18n="aboutTitle">حكاية ليالي الحلمية</h2>
-            <div class="about-card">
-                <p data-i18n="aboutText">
-                    نقدم لكم في 'ليالي الحلمية' أشهى المأكولات المصرية والأصلية المصنوعة بكل حب، بدءاً من الفطير المشلتت الفلاحي ، والكريب، والبيتزا ، وحتى الطواجن والوجبات المصرية الدسمة بأسلوب راقٍ وطعم أصيل في قلب رأس الخيمة.
-                </p>
+    <!-- قسم الهيرو الرئيسي -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>أصالة الطعم المصري</h1>
+            <h2>ليالي الحلمية</h2>
+            <p>الطعم الأصلي .. للأكل المصري</p>
+            <div class="hero-btns">
+                <a href="menu.html" class="btn-primary">شوف المنيو</a>
+                <a href="https://wa.me/971500000000" target="_blank" class="btn-secondary">اطلب الآن</a>
             </div>
         </div>
     </section>
 
-    <!-- Our Famous Dishes Section -->
-    <section id="specials" class="section bg-alt text-center">
+    <!-- حكاية ليالي الحلمية -->
+    <section id="about" class="about-section">
         <div class="container">
-            <div class="section-header-badge">
-                <i class="fa-solid fa-crown"></i>
-                <span data-i18n="specialsBadge">أطباق مميزة</span>
-            </div>
-            <h2 class="section-title" data-i18n="specialsTitle">أشهر أطباقنا</h2>
-            <div class="featured-grid" id="featuredGrid">
-                <!-- Dynamically injected featured dish cards -->
+            <h2>حكاية ليالي الحلمية</h2>
+            <p>نقدم لكم في "ليالي الحلمية" أشهى المأكولات المصرية والأصلية المصنوعة بكل حب، بدءاً من الفطير المشلتت الفلاحي، والكريب، والبيتزا ، وحتى الطواجن والوجبات المصرية الدسمة بأسلوب راقٍ وطعم أصيل في قلب رأس الخيمة.</p>
+        </div>
+    </section>
+
+    <!-- أشهر الأطباق -->
+    <section id="famous" class="featured-section">
+        <div class="container">
+            <h2><i class="fa-solid fa-crown"></i> أطباق مميزة</h2>
+            <h3>أشهر أطباقنا</h3>
+            <div id="featuredGrid" class="menu-grid">
+                <!-- تحميل المنتجات من Supabase -->
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="section text-center">
+    <!-- تواصل معنا -->
+    <section id="contact" class="contact-section">
         <div class="container">
-            <h2 class="section-title" data-i18n="contactTitle">تواصل معنا وموقعنا</h2>
-            <p style="margin-bottom: 25px;" data-i18n="locationText">رأس الخيمة - الإمارات العربية المتحدة</p>
-            
-            <!-- قسم روابط التواصل الاجتماعي والموقع -->
-<!-- قسم روابط التواصل الاجتماعي والموقع (أزرار مكبرة وموضحة) -->
-<div class="social-links" style="display: flex; gap: 14px; justify-content: center; align-items: center; margin-top: 22px; flex-wrap: wrap;">
-    
-    <!-- واتساب -->
-    <a href="https://wa.me/971501234567" target="_blank" rel="noopener noreferrer" title="واتساب" 
-       style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: rgba(37, 211, 102, 0.12); color: #25D366; border: 1px solid rgba(37, 211, 102, 0.3); border-radius: 12px; font-size: 28px; text-decoration: none; transition: all 0.2s ease-in-out;" 
-       onmouseover="this.style.transform='scale(1.1)'; this.style.background='#25D366'; this.style.color='#ffffff';" 
-       onmouseout="this.style.transform='scale(1)'; this.style.background='rgba(37, 211, 102, 0.12)'; this.style.color='#25D366';">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
-
-    <!-- فيسبوك -->
-    <a href="https://www.facebook.com/share/1D79yMUo41/" target="_blank" rel="noopener noreferrer" title="فيسبوك" 
-       style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: rgba(24, 119, 242, 0.12); color: #1877F2; border: 1px solid rgba(24, 119, 242, 0.3); border-radius: 12px; font-size: 28px; text-decoration: none; transition: all 0.2s ease-in-out;" 
-       onmouseover="this.style.transform='scale(1.1)'; this.style.background='#1877F2'; this.style.color='#ffffff';" 
-       onmouseout="this.style.transform='scale(1)'; this.style.background='rgba(24, 119, 242, 0.12)'; this.style.color='#1877F2';">
-        <i class="fa-brands fa-facebook"></i>
-    </a>
-
-    <!-- إنستغرام -->
-    <a href="https://www.instagram.com/layali_alhelmia?stkn=MTBtZGo1MzN2dXFtcg==" target="_blank" rel="noopener noreferrer" title="إنستغرام" 
-       style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: rgba(225, 48, 108, 0.12); color: #E1306C; border: 1px solid rgba(225, 48, 108, 0.3); border-radius: 12px; font-size: 28px; text-decoration: none; transition: all 0.2s ease-in-out;" 
-       onmouseover="this.style.transform='scale(1.1)'; this.style.background='#E1306C'; this.style.color='#ffffff';" 
-       onmouseout="this.style.transform='scale(1)'; this.style.background='rgba(225, 48, 108, 0.12)'; this.style.color='#E1306C';">
-        <i class="fa-brands fa-instagram"></i>
-    </a>
-
-    <!-- سناب شات -->
-    <a href="https://www.snapchat.com/add/layali_alhelmia?share_id=MjFPLUOIflQ&locale=en-US" target="_blank" rel="noopener noreferrer" title="سناب شات" 
-       style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: rgba(255, 252, 0, 0.12); color: #FFFC00; border: 1px solid rgba(255, 252, 0, 0.3); border-radius: 12px; font-size: 28px; text-decoration: none; transition: all 0.2s ease-in-out;" 
-       onmouseover="this.style.transform='scale(1.1)'; this.style.background='#FFFC00'; this.style.color='#000000';" 
-       onmouseout="this.style.transform='scale(1)'; this.style.background='rgba(255, 252, 0, 0.12)'; this.style.color='#FFFC00';">
-        <i class="fa-brands fa-snapchat"></i>
-    </a>
-
-    <!-- الموقع (خرائط جوجل) -->
-    <a href="https://maps.app.goo.gl/BCRCdhCCpK5NLyX67" target="_blank" rel="noopener noreferrer" title="موقعنا على الخريطة" 
-       style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: rgba(234, 67, 53, 0.12); color: #ea4335; border: 1px solid rgba(234, 67, 53, 0.3); border-radius: 12px; font-size: 28px; text-decoration: none; transition: all 0.2s ease-in-out;" 
-       onmouseover="this.style.transform='scale(1.1)'; this.style.background='#ea4335'; this.style.color='#ffffff';" 
-       onmouseout="this.style.transform='scale(1)'; this.style.background='rgba(234, 67, 53, 0.12)'; this.style.color='#ea4335';">
-        <i class="fa-solid fa-location-dot"></i>
-    </a>
-
-</div>
+            <h2>تواصل معنا وموقعنا</h2>
+            <p>رأس الخيمة - الإمارات العربية المتحدة</p>
+            <div class="social-links">
+                <a href="https://maps.google.com" target="_blank" class="social-btn map"><i class="fa-solid fa-location-dot"></i></a>
+                <a href="https://snapchat.com" target="_blank" class="social-btn snap"><i class="fa-brands fa-snapchat"></i></a>
+                <a href="https://instagram.com" target="_blank" class="social-btn insta"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://facebook.com" target="_blank" class="social-btn fb"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://wa.me/971500000000" target="_blank" class="social-btn wa"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
         </div>
     </section>
 
-    <!-- Redesigned Premium Shopping Cart Side Drawer -->
-    <div class="cart-drawer-overlay" id="cartOverlay" onclick="toggleCartDrawer()"></div>
-    <div class="cart-drawer" id="cartDrawer">
+    <!-- سلة الطلبات المنسدلة -->
+    <div id="cartSidebar" class="cart-sidebar">
         <div class="cart-header">
-            <div class="cart-header-title">
-                <i class="fa-solid fa-bag-shopping"></i>
-                <h3 data-i18n="cartTitle">سلة الطلبات</h3>
-            </div>
-            <button type="button" class="close-btn" onclick="toggleCartDrawer()">&times;</button>
+            <h3>سلة الطلبات</h3>
+            <button class="close-cart" onclick="toggleCart()">&times;</button>
         </div>
-        
-        <div class="cart-body" id="cartItemsContainer">
-            <!-- Dynamic Cart Items / Empty State -->
+        <div id="cartItems" class="cart-body">
+            <!-- عناصر السلة -->
         </div>
-
         <div class="cart-footer">
-            <div class="cart-summary-card">
-                <div class="summary-row">
-                    <span data-i18n="cartItemsCount">عدد المواد:</span>
-                    <span id="cartItemsCountVal">0</span>
-                </div>
-                <div class="summary-row total">
-                    <span data-i18n="cartTotal">الإجمالي:</span>
-                    <span id="cartTotalAmount">0 د.إ</span>
-                </div>
+            <div class="cart-total">
+                <span>الإجمالي:</span>
+                <span id="cartTotal">0 د.إ</span>
             </div>
-
-            <div class="checkout-form">
-                <div class="input-group">
-                    <i class="fa-solid fa-user"></i>
-                    <input type="text" id="custName" placeholder="الاسم الكامل" data-i18n-placeholder="namePlaceholder" required>
-                </div>
-                <div class="input-group">
-                    <i class="fa-solid fa-phone"></i>
-                    <input type="tel" id="custPhone" placeholder="رقم الهاتف" data-i18n-placeholder="phonePlaceholder" required>
-                </div>
-
-                <div class="location-container">
-                    <button type="button" class="btn-location" id="locationBtn" onclick="getUserLocation()">
-                        <i class="fa-solid fa-location-dot"></i> 
-                        <span id="locationBtnText" data-i18n="btnChooseLocation">تحديد موقع التوصيل</span>
-                    </button>
-                    <div id="locationStatus" class="location-status"></div>
-                </div>
-
-                <div class="input-group">
-                    <i class="fa-solid fa-pen"></i>
-                    <textarea id="custNotes" placeholder="ملاحظات إضافية على الطلب..." data-i18n-placeholder="notesPlaceholder"></textarea>
-                </div>
-
-                <div class="cart-actions-row">
-                    <button type="button" class="btn-clear-cart" onclick="clearCart()" title="تفريغ السلة">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                    <button type="button" class="btn-primary full-width checkout-btn" onclick="submitOrderWhatsApp()">
-                        <i class="fa-brands fa-whatsapp"></i>
-                        <span data-i18n="btnSendWA">إرسال الطلب عبر الواتساب</span>
-                    </button>
-                </div>
-            </div>
+            <button onclick="checkoutWhatsApp()" class="checkout-btn"><i class="fa-brands fa-whatsapp"></i> إرسال الطلب عبر الواتساب</button>
         </div>
     </div>
 
-    <footer class="text-center">
-        <p>&copy; 2026 ليالي الحلمية. جميع الحقوق محفوظة.</p>
-    </footer>
-
+    <!-- الملفات البرمجية -->
+    <script src="script.js"></script>
+    <script src="menu.js"></script>
+    <script src="cart.js"></script>
 </body>
 </html>
