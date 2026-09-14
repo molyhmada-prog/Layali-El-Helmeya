@@ -17,7 +17,7 @@ let lastKnownLang = '';
                 localStorage.setItem(k, JSON.stringify(cleanData));
             }
         });
-    } catch(e) { console.log("Cleaning cart status:", e); }
+    } catch (e) { console.log("Cleaning cart status:", e); }
 })();
 
 // 2. عند تحميل الصفحة والتفاعل
@@ -60,16 +60,16 @@ async function fetchMenuItemsFromSupabase() {
     try {
         let client = window.supabaseClient;
 
-        // التحقق من وجود العميل أو إنشائه تلقائياً
+        // التحقق من وجود العميل أو إنشائه تلقائياً في حال عدم توفره
         if (!client && window.supabase && typeof window.supabase.createClient === 'function') {
-            const SUPABASE_URL = 'https://your-supabase-url.supabase.co'; // ضع رابط Supabase الخاص بك هنا
-            const SUPABASE_ANON_KEY = 'your-anon-key';                  // ضع Anon Key الخاص بك هنا
+            const SUPABASE_URL = 'https://xxxx.supabase.co'; // ضع رابط Supabase الخاص بك هنا
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1...'; // ضع Anon Key الخاص بك هنا
             client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             window.supabaseClient = client;
         }
 
         if (!client || typeof client.from !== 'function') {
-            console.error("لم يتم العثور على Supabase Client بشكل صحيح!");
+            console.error("خطأ: لم يتم التعرف على Supabase Client! تأكدي من صحة المفاتيح والرابط في js/supabase-config.js");
             return;
         }
 
@@ -94,9 +94,9 @@ async function fetchMenuItemsFromSupabase() {
 function getActiveLanguage() {
     const htmlLang = document.documentElement.lang || '';
     const bodyLang = document.body ? (document.body.getAttribute('data-lang') || '') : '';
-    const localLang = localStorage.getItem('site_lang') || 
-                      localStorage.getItem('lang') || 
-                      localStorage.getItem('selectedLanguage') || '';
+    const localLang = localStorage.getItem('site_lang') ||
+        localStorage.getItem('lang') ||
+        localStorage.getItem('selectedLanguage') || '';
 
     if (htmlLang.toLowerCase().includes('en') || bodyLang.toLowerCase().includes('en') || localLang.toLowerCase().includes('en')) {
         return 'en';
@@ -106,9 +106,9 @@ function getActiveLanguage() {
 
 // 5. رسم كروت الأطباق ودعم الترجمة للغتين
 function renderMenu(items) {
-    const container = document.getElementById("featuredGrid") || 
-                      document.getElementById("menuGrid") || 
-                      document.querySelector(".menu-grid");
+    const container = document.getElementById("featuredGrid") ||
+        document.getElementById("menuGrid") ||
+        document.querySelector(".menu-grid");
 
     if (!container) return;
 
@@ -122,22 +122,22 @@ function renderMenu(items) {
 
     container.innerHTML = items.map(item => {
         // تحديد الاسم حسب اللغة
-        let itemName = isEn 
+        let itemName = isEn
             ? (item.name_en || item.title_en || item.en_name || item.name || item.title || 'Layali Al Helmia Dish')
             : (item.name_ar || item.name || item.title || item.item_name || 'طبق ليالي الحلمية');
-        
+
         // تحديد الوصف حسب اللغة
         let itemDesc = isEn
             ? (item.description_en || item.desc_en || item.en_description || item.description || item.desc || '')
             : (item.description_ar || item.description || item.desc || '');
 
-        const itemImg = item.image_url || item.image || 'logo.jpg';
-        
+        const itemImg = item.image_url || item.image || 'images/logo.jpg';
+
         const rawSizes = item.sizes;
         let parsedSizes = [];
-        
+
         if (typeof rawSizes === 'string') {
-            try { parsedSizes = JSON.parse(rawSizes); } catch(e) { parsedSizes = []; }
+            try { parsedSizes = JSON.parse(rawSizes); } catch (e) { parsedSizes = []; }
         } else if (Array.isArray(rawSizes)) {
             parsedSizes = rawSizes;
         }
@@ -159,13 +159,14 @@ function renderMenu(items) {
                             if (sizeLabel === 'كبير') sizeLabel = 'Large';
                         }
                         return `
-                        <button type="button" 
-                                id="size-btn-${item.id}-${s.size}"
-                                onclick="selectSize(${item.id}, '${s.size}', ${s.price})"
-                                style="padding: 5px 14px; border: 1px solid #e63946; background: ${idx === 0 ? '#e63946' : 'transparent'}; color: #ffffff; border-radius: 6px; cursor: pointer; font-weight: bold; font-family: 'Cairo', sans-serif; transition: all 0.2s;">
-                            ${sizeLabel}
-                        </button>
-                    `;}).join('')}
+                            <button type="button" 
+                                    id="size-btn-${item.id}-${s.size}"
+                                    onclick="selectSize(${item.id}, '${s.size}', ${s.price})"
+                                    style="padding: 5px 14px; border: 1px solid #e63946; background: ${idx === 0 ? '#e63946' : 'transparent'}; color: #ffffff; border-radius: 6px; cursor: pointer; font-weight: bold; font-family: 'Cairo', sans-serif; transition: all 0.2s;">
+                                ${sizeLabel}
+                            </button>
+                        `;
+                    }).join('')}
                 </div>
             `;
         }
@@ -178,7 +179,7 @@ function renderMenu(items) {
                 <div>
                     <!-- صورة الطبق -->
                     <div style="height: 190px; width: 100%; overflow: hidden; background: #000000;">
-                        <img src="${itemImg}" alt="${itemName}" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='logo.jpg'">
+                        <img src="${itemImg}" alt="${itemName}" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='images/logo.jpg'">
                     </div>
                     
                     <!-- جسم الكارت -->
@@ -204,9 +205,9 @@ function renderMenu(items) {
 }
 
 // 6. دالة اختيار الحجم
-window.selectSize = function(itemId, sizeLabel, price) {
+window.selectSize = function (itemId, sizeLabel, price) {
     selectedSizes[itemId] = { size: sizeLabel, price: price };
-    
+
     const isEn = (getActiveLanguage() === 'en');
     const currencyText = isEn ? 'AED' : 'د.إ';
 
@@ -217,7 +218,7 @@ window.selectSize = function(itemId, sizeLabel, price) {
     if (item && item.sizes) {
         let sizes = item.sizes;
         if (typeof sizes === 'string') {
-            try { sizes = JSON.parse(sizes); } catch(e) { sizes = []; }
+            try { sizes = JSON.parse(sizes); } catch (e) { sizes = []; }
         }
         sizes.forEach(s => {
             const btn = document.getElementById(`size-btn-${itemId}-${s.size}`);
@@ -230,9 +231,15 @@ window.selectSize = function(itemId, sizeLabel, price) {
 };
 
 // 7. دالة الفلترة حسب التصنيف
-window.filterCategory = function(category) {
-    document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
-    
+window.filterCategory = function (category) {
+    // تحديث أزرار الفلترة النشطة
+    const buttons = document.querySelectorAll(".filter-btn");
+    buttons.forEach(btn => btn.classList.remove("active"));
+
+    if (event && event.target && event.target.classList.contains("filter-btn")) {
+        event.target.classList.add("active");
+    }
+
     if (category === 'all' || !category) {
         renderMenu(menuItems);
     } else if (category === 'famous') {
@@ -252,7 +259,7 @@ window.addToCartById = function (id) {
     const isEn = (getActiveLanguage() === 'en');
     const chosenSize = selectedSizes[id];
 
-    let actualName = isEn 
+    let actualName = isEn
         ? (item.name_en || item.title_en || item.en_name || item.name || item.title || "Layali Al Helmia Dish")
         : (item.name_ar || item.name || item.title || item.item_name || "طبق ليالي الحلمية");
 
@@ -261,20 +268,20 @@ window.addToCartById = function (id) {
         name: actualName,
         title: actualName,
         item_name: actualName,
-        image: item.image_url || item.image || 'logo.jpg',
-        image_url: item.image_url || item.image || 'logo.jpg',
+        image: item.image_url || item.image || 'images/logo.jpg',
+        image_url: item.image_url || item.image || 'images/logo.jpg',
         selectedSize: chosenSize ? chosenSize.size : (item.sizes && item.sizes[0] ? item.sizes[0].size : 'عادي'),
         price: chosenSize ? Number(chosenSize.price) : Number(item.price || (item.sizes && item.sizes[0] ? item.sizes[0].price : 0)),
         quantity: 1
     };
 
-    // حفظ في التخزين المحلي
+    // حفظ في التخزين المحلي (LocalStorage)
     ["cart", "cart_items", "cartItems"].forEach(key => {
         let currentCart = [];
-        try { currentCart = JSON.parse(localStorage.getItem(key)) || []; } catch(e) { currentCart = []; }
-        
-        const existingIndex = currentCart.findIndex(cartItem => 
-            Number(cartItem.id) === Number(finalItem.id) && 
+        try { currentCart = JSON.parse(localStorage.getItem(key)) || []; } catch (e) { currentCart = []; }
+
+        const existingIndex = currentCart.findIndex(cartItem =>
+            Number(cartItem.id) === Number(finalItem.id) &&
             cartItem.selectedSize === finalItem.selectedSize
         );
 
@@ -292,11 +299,11 @@ window.addToCartById = function (id) {
 
     ['updateCartUI', 'renderCart', 'updateCartCount', 'loadCart', 'displayCart', 'renderCartItems'].forEach(fnName => {
         if (typeof window[fnName] === "function") {
-            try { window[fnName](); } catch(e){}
+            try { window[fnName](); } catch (e) { }
         }
     });
 
-    const msg = isEn 
+    const msg = isEn
         ? `"${actualName}" added to cart successfully!`
         : `تمت إضافة "${actualName}" إلى السلة بنجاح!`;
 
