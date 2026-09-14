@@ -3,62 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>قائمة الطعام | مطعم ليالي الحلمية</title>
+    <title>قائمة الطعام - مطعم ليالي الحلمية</title>
 
-    <!-- Font Awesome الأيقونات -->
+    <!-- خط القاهرة وأيقونات Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- خط القاهرة -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- ملفات الـ CSS مع السلاش / لضمان المسار الصحيح -->
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/menu.css">
-
-    <!-- Supabase SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- ملفات التنسيق الخارجية (بدون فولدر css/) -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="menu.css">
 </head>
 <body>
 
-    <!-- الهيدر وشريط التنقل -->
-    <header class="main-header">
-        <div class="header-container">
-            <a href="/index.html" class="logo">
-                <img src="/images/logo.jpg" alt="شعار ليالي الحلمية" onerror="this.src='/images/logo.jpg'">
-                <span>ليالي الحلمية</span>
+    <!-- الهيدر العلوي -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="logo.jpg" alt="ليالي الحلمية" onerror="this.src='https://via.placeholder.com/45'">
+                <h2>ليالي الحلمية</h2>
             </a>
-            <nav class="nav-links">
-                <a href="/index.html">الرئيسية</a>
-                <a href="/menu.html" class="active">المنيو</a>
+            <nav>
+                <a href="index.html">الرئيسية</a>
+                <a href="menu.html" class="active">قائمة الطعام</a>
+                <a href="cart.html" class="cart-icon">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cartCount">0</span>
+                </a>
             </nav>
         </div>
     </header>
 
-    <!-- قسم المنيو وقائمة الأطباق -->
-    <main class="menu-page-container">
-        <h1 class="page-title">قائمة الطعام</h1>
+    <!-- عنوان الصفحة -->
+    <section class="page-banner">
+        <h1>قائمة الطعام</h1>
+        <p>استمتع بأشهى المأكولات والمخبوزات الفلاحية والبيتزا في مطعم ليالي الحلمية</p>
+    </section>
 
-        <!-- أزرار الفلترة -->
-        <div class="category-filters">
-            <button class="filter-btn active" onclick="filterCategory('all')">الكل</button>
-            <button class="filter-btn" onclick="filterCategory('famous')">الأكثر طلباً</button>
-            <button class="filter-btn" onclick="filterCategory('مشويات')">مشويات</button>
-            <button class="filter-btn" onclick="filterCategory('طواجن')">طواجن</button>
-            <button class="filter-btn" onclick="filterCategory('مقبلات')">مقبلات</button>
-            <button class="filter-btn" onclick="filterCategory('مشروبات')">مشروبات</button>
-        </div>
+    <!-- أزرار الأقسام والفلترة -->
+    <div class="menu-filters">
+        <button class="filter-btn active" onclick="filterCategory('all')">الكل</button>
+        <button class="filter-btn" onclick="filterCategory('famous')">🔥 أشهر الأطباق</button>
+        <button class="filter-btn" onclick="filterCategory('pizza')">🍕 البيتزا</button>
+        <button class="filter-btn" onclick="filterCategory('feteer')">🫓 الفطير</button>
+        <button class="filter-btn" onclick="filterCategory('tawagen')">🍲 الطواجن</button>
+    </div>
 
-        <!-- شبكة عرض الأطباق -->
+    <!-- شبكة عرض كروت الطعام -->
+    <main>
         <div id="featuredGrid" class="menu-grid">
-            <!-- سيتم تحميل الأطباق هنا تلقائياً بواسطة menu.js -->
+            <!-- الكروت ستظهر هنا بواسطة menu.js -->
         </div>
     </main>
 
-    <!-- ملفات الـ JavaScript مع السلاش / لضمان المسار الصحيح -->
-    <script src="/js/supabase-config.js"></script>
-    <script src="/js/script.js" defer></script>
-    <script src="/js/cart.js" defer></script>
-    <script src="/js/menu.js" defer></script>
+    <footer>
+        <p>&copy; 2026 مطعم ليالي الحلمية - جميع الحقوق محفوظة</p>
+    </footer>
+
+    <!-- ملفات الجافاسكريبت الخارجية (بدون فولدر js/) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="script.js" defer></script>
+    <script src="cart.js" defer></script>
+    <script src="menu.js" defer></script>
 
 </body>
 </html>
