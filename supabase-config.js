@@ -1,15 +1,18 @@
-﻿// ==========================================
+// ==========================================
 // ملف إعدادات الربط بـ Supabase (js/supabase-config.js)
 // ==========================================
 
 const SUPABASE_URL = 'https://wzkdqonjnstkxleunlmw.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_y4L_ewNLCY6kTUeNsu2Pxw_ny-TLfRd';
+
+// ⚠️ ضعي مفتاح anon key الخاص بك هنا (الذي يبدأ بـ eyJ...) من لوحة Supabase -> Settings -> API
+const SUPABASE_ANON_KEY = 'ضع_هنا_الـ_anon_key_الخاص_بالمشروع';
 
 // إنشاء وتجهيز عميل Supabase
 let supabaseClient = null;
 
-if (typeof supabase !== 'undefined' && supabase.createClient) {
+if (typeof supabase !== 'undefined' && typeof supabase.createClient === 'function') {
     supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log("تم تهيئة عميل Supabase بنجاح!");
 } else {
     console.error("مكتبة Supabase CDN غير مثبتة في صفحة الـ HTML.");
 }
